@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<title>HASHES.PRO | Hash Identifyer</title>
+
+		<style type="text/css">
+			#hashesInputField {
+				width: 100%;
+				height: 400px;
+			}
+			body {
+				background-color: #f9f9f9;
+			}
+			.blockquote-footer {
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header><h1>HASHES.PRO</h1><h3>hash identification</h3></header>
+			<content>
+				<textarea id="hashesInputField"></textarea>
+				<br>
+				<button id="identify" type="button" class="btn btn-primary">Identify</button>
+				<table class="table thead-light d-none">
+					<thead>
+						<tr>
+							<th scope="col">Hash</th>
+							<th scope="col">Type</th>
+							<th scope="col">HashCat Mode</th>
+							<th scope="col">John Mode</th>
+						</tr>
+					</thead>
+					<tbody id="results"></tbody>
+				</table>
+			</content>
+
+			<footer class="blockquote-footer">
+				Made by <a href="https://github.com/vegasq">Nick</a>
+				<br>
+				Based on <a href="https://github.com/HashPals/Name-That-Hash">Name-That-Hash</a>
+			</footer>
+		</div>
+
+	</body>
+</html>
+
+<script type="text/javascript">
+	async function getHashTypes(){
+		var knownHashTypes = [];
+		var resp = await fetch("https://raw.githubusercontent.com/HashPals/Name-That-Hash/main/name_that_hash/hashes.py");
+		var data = await resp.text();
+
+		let hashProto = new RegExp(/re\.compile\(r\"(.+?)\".*?modes=\[(.*?)\]/, 'gms');
+		let regexExtractor = new RegExp(/re\.compile\(r\"(.*?)\"/, 'gms');
+		let nameExtractor = new RegExp(/name=.?\"(.*?)\"/, 'gms');
+		let hashcatExtractor = new RegExp(/hashcat=(\d+?),/, 'gms');
+		let johnExtractor = new RegExp(/john=\"(.+?)\",/, 'gms');
+
+		const found = data.match(hashProto);
+		for (var i = found.length - 1; i >= 0; i--) {
+			var regexes = [...found[i].matchAll(regexExtractor)];
+			var names = [...found[i].matchAll(nameExtractor)];
+			var hashcatModes = [...found[i].matchAll(hashcatExtractor)];;
+			var johnModes = [...found[i].matchAll(johnExtractor)];
+
+			if (regexes !== undefined) {
+				var r = new RegExp(regexes[0][1], 'i');
+
+				if (hashcatModes !== undefined && hashcatModes.length > 0) {
+					hashcatModes = hashcatModes[0][1];
+				}
+				if (johnModes !== undefined && johnModes.length > 0) {
+					johnModes = johnModes[0][1];
+				}
+
+				knownHashTypes.push({
+					name: names[0][1],
+					re: r,
+					hashcat: hashcatModes,
+					john: johnModes,
+				});
+			}
+		}
+		return knownHashTypes;
+	}
+
+	function identifyHash(hashTypes, hash){
+		for (var j = hashTypes.length - 1; j >= 0; j--) {
+			var match = hash.match(hashTypes[j].re);
+			if (match !== null) {
+				console.log(hash, hashTypes[j].name);
+				return {
+					hash: hash,
+					hashType: hashTypes[j],
+				}
+			}
+		}
+		return {
+			hash: hash,
+		}
+	}
+
+	function displayResults(results){
+		var table = "";
+		var row = "";
+		for (var i = results.length - 1; i >= 0; i--) {
+			var result = results[i];
+			if (results[i].hashType !== undefined) {
+				row = `<tr>
+					<td>${result.hash}</td>
+					<td>${result.hashType.name}</td>
+					<td>${result.hashType.hashcat}</td>
+					<td>${result.hashType.john}</td>
+				</tr>`;
+			} else {
+				row = `<tr>
+					<td>${result.hash}</td>
+					<td>?</td>
+					<td>?</td>
+					<td>?</td>
+				</tr>`;
+			}
+			table += row;
+		}
+
+		document.getElementById("results").innerHTML = table;
+		document.getElementById("results").parentNode.classList.remove('d-none');
+	}
+
+	async function identify(){
+		let hashesFieldValue = document.getElementById("hashesInputField").value;
+		let hashes = hashesFieldValue.split("\n");
+		var hashTypes = await getHashTypes();
+		var results = [];
+		for (var i = hashes.length - 1; i >= 0; i--) {
+			results.push(identifyHash(hashTypes, hashes[i]));
+		}
+		displayResults(results);
+	};
+
+	(function init(){
+		let button = document.getElementById("identify");
+		button.addEventListener("click", identify);
+
+	})();
+</script>
