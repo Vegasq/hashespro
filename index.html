@@ -23,11 +23,15 @@
 	</head>
 	<body>
 		<div class="container">
-			<header><h1>HASHES.PRO</h1><h3>hash identification</h3></header>
+			<header><h1>HASHES.PRO</h1></header>
 			<content>
-				<textarea id="hashesInputField"></textarea>
+				<label for="hashesInputField"><h4>Enter hashes one per line to be identified</h4></label>
+				<textarea id="hashesInputField" placeholder="hash1
+hash2
+hash3"></textarea>
 				<br>
-				<button id="identify" type="button" class="btn btn-primary">Identify</button>
+				<br>
+				<button id="identify" type="button" class="btn btn-primary">Identify hashes</button>
 				<table class="table thead-light d-none">
 					<thead>
 						<tr>
@@ -42,9 +46,9 @@
 			</content>
 
 			<footer class="blockquote-footer">
-				Made by <a href="https://github.com/vegasq">Nick</a> <a href="https://github.com/Vegasq/hashespro">here</a>
+				<a href="https://github.com/Vegasq/hashespro">Made by Nick here</a>
 				<br>
-				Based on <a href="https://github.com/HashPals/Name-That-Hash">Name-That-Hash</a>
+				<a href="https://github.com/HashPals/Name-That-Hash">Based on Name-That-Hash</a>
 			</footer>
 		</div>
 
