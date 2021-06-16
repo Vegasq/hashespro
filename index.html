@@ -51,6 +51,8 @@ hash3"></textarea>
 				<a href="https://github.com/HashPals/Name-That-Hash">Based on Name-That-Hash by HashPals</a>
 				<br>
 				<a href="https://github.com/noraj/haiti/">Based on Haiti by noraj</a>
+				<br>
+				<a href="https://github.com/bee-san/pyWhat">Based on pyWhat by bee-san</a>
 			</footer>
 		</div>
 
@@ -58,6 +60,26 @@ hash3"></textarea>
 </html>
 
 <script type="text/javascript">
+	async function getPyWhatHashTypes(){
+		var knownHashTypes = [];
+		var resp = await fetch("https://raw.githubusercontent.com/bee-san/pyWhat/main/pywhat/Data/regex.json");
+		var data = await resp.json();
+
+		for (var i = data.length - 1; i >= 0; i--) {
+			try {
+				var r = new RegExp(data[i].Regex, 'i');
+			} catch(err) {
+				continue;
+			}
+			knownHashTypes.push({
+				name: "pyWhat: " + data[i].Name,
+				re: r,
+			});
+		}
+
+		return knownHashTypes;
+	}
+
 	async function getHaitiHashTypes(){
 		var knownHashTypes = [];
 		var resp = await fetch("https://raw.githubusercontent.com/noraj/haiti/master/data/prototypes.json");
@@ -123,7 +145,6 @@ hash3"></textarea>
 		for (var j = hashTypes.length - 1; j >= 0; j--) {
 			var match = hash.match(hashTypes[j].re);
 			if (match !== null) {
-				console.log(hashTypes[j].re, hash, hashTypes[j].name);
 				results.push({
 					hash: hash,
 					hashType: hashTypes[j],
@@ -165,12 +186,14 @@ hash3"></textarea>
 		let hashes = hashesFieldValue.split("\n");
 		var haitiHashTypes = await getHaitiHashTypes();
 		var nthHashTypes = await getNTHHashTypes();
+		var pywhatHashTypes = await getPyWhatHashTypes();
+
 		var hashTypes = haitiHashTypes.concat(nthHashTypes);
+		var hashTypes = hashTypes.concat(pywhatHashTypes);
 
 		var results = [];
 		for (var i = hashes.length - 1; i >= 0; i--) {
 			var detected = identifyHash(hashTypes, hashes[i]);
-			// console.log(detected)
 			for (var j = detected.length - 1; j >= 0; j--) {
 				results.push(detected[j]);
 			}
