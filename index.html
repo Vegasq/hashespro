@@ -48,7 +48,9 @@ hash3"></textarea>
 			<footer class="blockquote-footer">
 				<a href="https://github.com/Vegasq/hashespro">Made by Nick here</a>
 				<br>
-				<a href="https://github.com/HashPals/Name-That-Hash">Based on Name-That-Hash</a>
+				<a href="https://github.com/HashPals/Name-That-Hash">Based on Name-That-Hash by HashPals</a>
+				<br>
+				<a href="https://github.com/noraj/haiti/">Based on Haiti by noraj</a>
 			</footer>
 		</div>
 
@@ -56,7 +58,28 @@ hash3"></textarea>
 </html>
 
 <script type="text/javascript">
-	async function getHashTypes(){
+	async function getHaitiHashTypes(){
+		var knownHashTypes = [];
+		var resp = await fetch("https://raw.githubusercontent.com/noraj/haiti/master/data/prototypes.json");
+		var data = await resp.json();
+
+		for (var i = data.length - 1; i >= 0; i--) {
+			var r = new RegExp(data[i].regex, 'i');
+			for (var j = data[i].modes.length - 1; j >= 0; j--) {
+				knownHashTypes.push({
+					name: "haiti: " + data[i].modes[j].name,
+					re: r,
+					hashcat: data[i].modes[j].hashcat,
+					john: data[i].modes[j].john,
+				});
+
+			}
+		}
+
+		return knownHashTypes;
+	}
+
+	async function getNTHHashTypes(){
 		var knownHashTypes = [];
 		var resp = await fetch("https://raw.githubusercontent.com/HashPals/Name-That-Hash/main/name_that_hash/hashes.py");
 		var data = await resp.text();
@@ -85,7 +108,7 @@ hash3"></textarea>
 				}
 
 				knownHashTypes.push({
-					name: names[0][1],
+					name: "NTH: " + names[0][1],
 					re: r,
 					hashcat: hashcatModes,
 					john: johnModes,
@@ -96,19 +119,18 @@ hash3"></textarea>
 	}
 
 	function identifyHash(hashTypes, hash){
+		var results = [];
 		for (var j = hashTypes.length - 1; j >= 0; j--) {
 			var match = hash.match(hashTypes[j].re);
 			if (match !== null) {
-				console.log(hash, hashTypes[j].name);
-				return {
+				console.log(hashTypes[j].re, hash, hashTypes[j].name);
+				results.push({
 					hash: hash,
 					hashType: hashTypes[j],
-				}
+				});
 			}
 		}
-		return {
-			hash: hash,
-		}
+		return results;
 	}
 
 	function displayResults(results){
@@ -141,10 +163,17 @@ hash3"></textarea>
 	async function identify(){
 		let hashesFieldValue = document.getElementById("hashesInputField").value;
 		let hashes = hashesFieldValue.split("\n");
-		var hashTypes = await getHashTypes();
+		var haitiHashTypes = await getHaitiHashTypes();
+		var nthHashTypes = await getNTHHashTypes();
+		var hashTypes = haitiHashTypes.concat(nthHashTypes);
+
 		var results = [];
 		for (var i = hashes.length - 1; i >= 0; i--) {
-			results.push(identifyHash(hashTypes, hashes[i]));
+			var detected = identifyHash(hashTypes, hashes[i]);
+			// console.log(detected)
+			for (var j = detected.length - 1; j >= 0; j--) {
+				results.push(detected[j]);
+			}
 		}
 		displayResults(results);
 	};
