@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Functions Tests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #results {
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .success {
+            color: #2e7d32;
+        }
+        .error {
+            color: #c62828;
+        }
+        .summary {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hash Functions Tests</h1>
+    
+    <div>
+        <p>This page runs unit tests for various hash implementations. The tests verify:</p>
+        <h3>Core MD5 Functions:</h3>
+        <ul>
+            <li>Basic MD5 hash generation for known inputs</li>
+            <li>MD5 hash generation with salt</li>
+            <li>Hash verification functionality</li>
+            <li>Batch processing of multiple inputs</li>
+            <li>Error handling for invalid inputs</li>
+        </ul>
+        
+        <h3>WebAssembly Implementation:</h3>
+        <ul>
+            <li>Pure JavaScript MD5 implementation</li>
+            <li>WebAssembly module compilation</li>
+            <li>MD5 calculation using WebAssembly</li>
+            <li>MD5 bruteforce functionality</li>
+        </ul>
+        
+        <h3>MD5 Bruteforcer:</h3>
+        <ul>
+            <li>Simple bruteforce with single-character passwords</li>
+            <li>Bruteforce with multi-character passwords</li>
+            <li>Testing with different password lengths</li>
+        </ul>
+        
+        <h3>String to Hash Module:</h3>
+        <ul>
+            <li>MD5 hash generation via the common interface</li>
+            <li>SHA-1 hash generation</li>
+            <li>SHA-256 hash generation</li>
+            <li>SHA-512 hash generation</li>
+            <li>SHA-3 hash generation (using SHA-384)</li>
+            <li>Error handling for invalid algorithms</li>
+        </ul>
+    </div>
+    
+    <div id="results">Running tests...</div>
+    
+    <script type="module">
+        // Redirect console output to the results div
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.textContent = '';
+        
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const text = args.join(' ');
+            const element = document.createElement('div');
+            
+            if (text.includes('✅')) {
+                element.className = 'success';
+            } else if (text.includes('Test summary')) {
+                element.className = 'summary';
+            }
+            
+            element.textContent = text;
+            resultsDiv.appendChild(element);
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            const text = args.join(' ');
+            const element = document.createElement('div');
+            element.className = 'error';
+            element.textContent = text;
+            resultsDiv.appendChild(element);
+        };
+        
+        // Import and run the tests
+        Promise.all([
+            import('./js/md5.test.js'),
+            import('./js/md5wasm.test.js'),
+            import('./js/md5Bruteforcer.test.js'),
+            import('./js/stringToHash.test.js')
+        ]).catch(error => {
+            console.error('Error loading test modules:', error);
+        });
+    </script>
+</body>
+</html>

@@ -1,138 +1,338 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
-		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-
-		<title>HASHES.PRO | Hash Identifier</title>
-
-		<style type="text/css">
-			#hashesInputField {
-				width: 100%;
-				height: 400px;
-				border: 1px solid #ced4da;
-				border-radius: 0.25rem;
-				padding: 10px;
-				font-family: 'Fira Code', monospace;
-				font-size: 1rem;
-				color: #495057;
-				background-color: #1e1e1e;
-				background-clip: padding-box;
-				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-				transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-				color: #dcdcdc;
-			}
-			body {
-				background-color: #121212;
-				font-family: 'Fira Code', monospace;
-				color: #dcdcdc;
-				line-height: 1.6;
-			}
-			.blockquote-footer {
-				text-align: right;
-				font-size: 0.875rem;
-				color: #6c757d;
-			}
-			h1.display-4 {
-				font-size: 2.5rem;
-				font-weight: 700;
-				line-height: 1.2;
-				margin-bottom: 0.5rem;
-				color: #61dafb;
-			}
-			.lead {
-				font-size: 1.25rem;
-				font-weight: 300;
-				color: #61dafb;
-			}
-			.btn-primary {
-				background-color: #007bff;
-				border-color: #007bff;
-				color: #fff;
-				font-family: 'Fira Code', monospace;
-			}
-			.btn-primary:hover {
-				background-color: #0056b3;
-				border-color: #004085;
-			}
-			.table {
-				width: 100%;
-				margin-bottom: 1rem;
-				color: #dcdcdc;
-			}
-			.table th,
-			.table td {
-				padding: 0.75rem;
-				vertical-align: top;
-				border-top: 1px solid #dee2e6;
-			}
-			.table thead th {
-				vertical-align: bottom;
-				border-bottom: 2px solid #dee2e6;
-			}
-			.table tbody + tbody {
-				border-top: 2px solid #dee2e6;
-			}
-			.table-striped tbody tr:nth-of-type(odd) {
-				background-color: rgba(255, 255, 255, 0.05);
-			}
-			.table-bordered {
-				border: 1px solid #dee2e6;
-			}
-			.table-bordered th,
-			.table-bordered td {
-				border: 1px solid #dee2e6;
-			}
-			.table-bordered thead th,
-			.table-bordered thead td {
-				border-bottom-width: 2px;
-			}
-			.wordwrap {
-				white-space: pre-wrap;
-				word-break: break-word;
-				overflow-wrap: break-word;
-				max-width: 100%;
-				hyphens: auto;
-				word-wrap: break-word;
-			}
-		</style>
+		<meta name="description" content="HASHES.PRO - A collection of hash tools and utilities for developers and security professionals">
+		<meta name="theme-color" content="#0f172a">
+		
+		<title>HASHES.PRO | Hash Tools</title>
+		
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+		<link rel="stylesheet" href="styles.css">
+		
+		<!-- Favicon -->
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>#</text></svg>">
 	</head>
 	<body>
 		<div class="container mt-5">
 			<header class="text-center mb-4">
 				<h1 class="display-4">HASHES.PRO</h1>
-				<p class="lead">Identify your hash types quickly and easily</p>
+				<p class="lead">Hash tools and utilities</p>
 			</header>
 			<main>
-				<div class="form-group">
-					<label for="hashesInputField"><h4>Enter hashes one per line to be identified</h4></label>
-					<textarea id="hashesInputField" class="form-control" rows="10" placeholder="hash1
+				<!-- Tab Navigation -->
+				<ul class="nav nav-tabs mb-4" id="featureTabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="hash-identifier-tab" data-bs-toggle="tab" href="#hash-identifier" role="tab" aria-controls="hash-identifier" aria-selected="true">Hash Identifier</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="hex-converter-tab" data-bs-toggle="tab" href="#hex-converter" role="tab" aria-controls="hex-converter" aria-selected="false">Hex to String</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="string-to-hex-tab" data-bs-toggle="tab" href="#string-to-hex" role="tab" aria-controls="string-to-hex" aria-selected="false">String to Hex</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="md5-bruteforcer-tab" data-bs-toggle="tab" href="#md5-bruteforcer" role="tab" aria-controls="md5-bruteforcer" aria-selected="false">MD5 Bruteforcer</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="string-to-hash-tab" data-bs-toggle="tab" href="#string-to-hash" role="tab" aria-controls="string-to-hash" aria-selected="false">String to Hash</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="md5-tab" data-bs-toggle="tab" href="#md5" role="tab" aria-controls="md5" aria-selected="false">MD5 Tool</a>
+					</li>
+				</ul>
+				
+				<!-- Tab Content -->
+				<div class="tab-content" id="featureTabsContent">
+					<!-- MD5 Tool Tab -->
+					<div class="tab-pane fade" id="md5" role="tabpanel" aria-labelledby="md5-tab">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="card mb-4">
+									<div class="card-header">
+										<h5 class="mb-0">Generate MD5 Hash</h5>
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<label for="md5Input">Enter text to hash</label>
+											<textarea id="md5Input" class="form-control" rows="4" placeholder="Enter text to generate MD5 hash"></textarea>
+										</div>
+										<div class="text-center">
+											<button id="generateMD5" type="button" class="btn btn-primary">Generate MD5 Hash</button>
+										</div>
+										<div class="mt-3 result-container">
+											<div class="card bg-dark">
+												<div class="card-header">
+													<h6 class="mb-0">Result</h6>
+													<button class="copy-btn" data-clipboard-target="#md5Result" title="Copy to clipboard">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+															<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+															<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+														</svg>
+													</button>
+												</div>
+												<div class="card-body">
+													<pre id="md5Result" class="mb-0">The MD5 hash will appear here</pre>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card mb-4">
+									<div class="card-header">
+										<h5 class="mb-0">Verify MD5 Hash</h5>
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<label for="md5VerifyInput">Enter text to verify</label>
+											<textarea id="md5VerifyInput" class="form-control" rows="2" placeholder="Enter text to verify"></textarea>
+										</div>
+										<div class="form-group">
+											<label for="md5HashToVerify">Enter MD5 hash to verify against</label>
+											<input type="text" id="md5HashToVerify" class="form-control" placeholder="e.g. 5f4dcc3b5aa765d61d8327deb882cf99">
+										</div>
+										<div class="text-center">
+											<button id="verifyMD5" type="button" class="btn btn-primary">Verify Hash</button>
+										</div>
+										<div class="mt-3 result-container">
+											<div class="card bg-dark">
+												<div class="card-header">
+													<h6 class="mb-0">Verification Result</h6>
+													<button class="copy-btn" data-clipboard-target="#md5VerifyResult" title="Copy to clipboard">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+															<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+															<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+														</svg>
+													</button>
+												</div>
+												<div class="card-body">
+													<pre id="md5VerifyResult" class="mb-0">Verification result will appear here</pre>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card mt-2">
+							<div class="card-header">
+								<h5 class="mb-0">About MD5</h5>
+							</div>
+							<div class="card-body">
+								<p>MD5 (Message Digest Algorithm 5) is a widely used cryptographic hash function that produces a 128-bit (16-byte) hash value. It was designed by Ronald Rivest in 1991 to replace MD4.</p>
+								<p>Key characteristics of MD5:</p>
+								<ul>
+									<li>Produces a 32-character hexadecimal hash</li>
+									<li>Is deterministic (same input always produces same output)</li>
+									<li>Is designed to be a one-way function (cannot easily derive input from output)</li>
+									<li><strong>Security Note:</strong> MD5 is considered cryptographically broken and unsuitable for security applications. It should not be used for secure password storage or digital signatures.</li>
+								</ul>
+								<p>Common uses today:</p>
+								<ul>
+									<li>File integrity checking</li>
+									<li>Checksums for downloaded files</li>
+									<li>Non-security related data identification</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- String to Hash Tab -->
+					<div class="tab-pane fade" id="string-to-hash" role="tabpanel" aria-labelledby="string-to-hash-tab">
+						<div class="form-group">
+							<label for="stringToHashInput"><h4>Enter text to hash</h4></label>
+							<textarea id="stringToHashInput" class="form-control" rows="5" placeholder="Enter text to hash"></textarea>
+						</div>
+						<div class="form-row align-items-center mb-3">
+							<div class="col-md-4 offset-md-4">
+								<label for="hashAlgorithmSelect">Hash Algorithm</label>
+								<select id="hashAlgorithmSelect" class="form-control">
+									<option value="md5" selected>MD5</option>
+									<option value="sha1">SHA-1</option>
+									<option value="sha256">SHA-256</option>
+									<option value="sha512">SHA-512</option>
+									<option value="sha3">SHA-3</option>
+								</select>
+							</div>
+						</div>
+						<div class="text-center">
+							<button id="generateHash" type="button" class="btn btn-primary btn-lg">Generate Hash</button>
+						</div>
+						<div class="mt-4 result-container">
+							<div class="card bg-dark">
+								<div class="card-header d-flex justify-content-between">
+									<h5>Result <small class="text-muted" id="hashAlgorithmResult">MD5</small></h5>
+									<button class="copy-btn" data-clipboard-target="#hashResult" title="Copy to clipboard">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+											<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+											<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+										</svg>
+									</button>
+								</div>
+								<div class="card-body">
+									<pre id="hashResult" class="mb-0">The hash will appear here</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- MD5 Bruteforcer Tab -->
+					<div class="tab-pane fade" id="md5-bruteforcer" role="tabpanel" aria-labelledby="md5-bruteforcer-tab">
+						<div class="form-group">
+							<label for="md5HashInput"><h4>Enter MD5 hash to bruteforce</h4></label>
+							<input type="text" id="md5HashInput" class="form-control" placeholder="e.g. 5f4dcc3b5aa765d61d8327deb882cf99">
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label for="minLength">Minimum Length</label>
+								<input type="number" id="minLength" class="form-control" value="1" min="1" max="8">
+							</div>
+							<div class="col-md-6">
+								<label for="maxLength">Maximum Length</label>
+								<input type="number" id="maxLength" class="form-control" value="4" min="1" max="8">
+							</div>
+						</div>
+						<div class="alert alert-warning">
+							<strong>Note:</strong> Bruteforcing is resource-intensive. For better performance:
+							<ul>
+								<li>Keep maximum length ≤ 8 characters</li>
+								<li>The process uses all available CPU cores</li>
+								<li>WebAssembly acceleration is used when available</li>
+							</ul>
+						</div>
+						<div class="text-center">
+							<button id="bruteforce" type="button" class="btn btn-primary btn-lg">Bruteforce Hash</button>
+						</div>
+						<div class="mt-4 result-container">
+							<div class="card bg-dark">
+								<div class="card-header d-flex justify-content-between">
+									<h5>Result</h5>
+									<div>
+										<span class="badge badge-info mr-2">Progress: <span id="bruteforceProgress">0%</span></span>
+										<span class="badge badge-secondary">Time: <span id="bruteforceTime">0s</span></span>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="progress mb-3">
+										<div class="progress-bar" id="bruteforceProgressBar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+									<pre id="bruteforceResult" class="mb-0">Results will appear here</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Hash Identifier Tab -->
+					<div class="tab-pane fade show active" id="hash-identifier" role="tabpanel" aria-labelledby="hash-identifier-tab">
+						<div class="form-group">
+							<label for="hashesInputField"><h4>Enter hashes one per line to be identified</h4></label>
+							<textarea id="hashesInputField" class="form-control" rows="10" placeholder="hash1
 hash2
 hash3"></textarea>
-				</div>
-				<div class="text-center">
-					<button id="identify" type="button" class="btn btn-primary btn-lg">Identify Hashes</button>
-				</div>
-				<div class="mt-4">
-					<table class="table table-striped table-bordered d-none">
-						<thead class="thead-dark">
-							<tr>
-								<th scope="col">Hash</th>
-								<th scope="col">Type</th>
-								<th scope="col">HashCat Mode</th>
-								<th scope="col">John Mode</th>
-							</tr>
-						</thead>
-						<tbody id="results"></tbody>
-					</table>
+						</div>
+						<div class="text-center">
+							<button id="identify" type="button" class="btn btn-primary btn-lg">Identify Hashes</button>
+						</div>
+						<div class="mt-4">
+							<table class="table table-striped table-bordered d-none">
+								<thead>
+									<tr>
+										<th scope="col">Hash</th>
+										<th scope="col">Type</th>
+										<th scope="col">HashCat Mode</th>
+										<th scope="col">John Mode</th>
+									</tr>
+								</thead>
+								<tbody id="results"></tbody>
+							</table>
+						</div>
+					</div>
+					
+					<!-- Hex to String Converter Tab -->
+					<div class="tab-pane fade" id="hex-converter" role="tabpanel" aria-labelledby="hex-converter-tab">
+						<div class="form-group">
+							<label for="hexInputField"><h4>Enter hex values to convert to string</h4></label>
+							<textarea id="hexInputField" class="form-control" rows="10" placeholder="48656c6c6f20576f726c64"></textarea>
+						</div>
+						<div class="form-row align-items-center mb-3">
+							<div class="col-md-4 offset-md-4">
+								<label for="encodingSelect">Character Encoding</label>
+								<select id="encodingSelect" class="form-control">
+									<option value="utf8" selected>UTF-8</option>
+									<option value="cp1251">CP1251 (Windows Cyrillic)</option>
+									<option value="koi8r">KOI8-R (Russian)</option>
+									<option value="cp866">CP866 (DOS Cyrillic)</option>
+									<option value="iso88595">ISO-8859-5 (Cyrillic)</option>
+									<option value="latin1">Latin1 (ISO-8859-1)</option>
+								</select>
+							</div>
+						</div>
+						<div class="text-center">
+							<button id="convertHex" type="button" class="btn btn-primary btn-lg">Convert to String</button>
+						</div>
+						<div class="mt-4 result-container">
+							<div class="card bg-dark">
+								<div class="card-header d-flex justify-content-between">
+									<h5>Result <small class="text-muted" id="resultEncoding">UTF-8</small></h5>
+									<button class="copy-btn" data-clipboard-target="#hexResult" title="Copy to clipboard">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+											<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+											<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+										</svg>
+									</button>
+								</div>
+								<div class="card-body">
+									<pre id="hexResult" class="mb-0">The converted string will appear here</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- String to Hex Converter Tab -->
+					<div class="tab-pane fade" id="string-to-hex" role="tabpanel" aria-labelledby="string-to-hex-tab">
+						<div class="form-group">
+							<label for="stringInputField"><h4>Enter text to convert to hex</h4></label>
+							<textarea id="stringInputField" class="form-control" rows="10" placeholder="Hello World"></textarea>
+						</div>
+						<div class="form-row align-items-center mb-3">
+							<div class="col-md-4 offset-md-4">
+								<label for="stringEncodingSelect">Character Encoding</label>
+								<select id="stringEncodingSelect" class="form-control">
+									<option value="utf8" selected>UTF-8</option>
+									<option value="cp1251">CP1251 (Windows Cyrillic)</option>
+									<option value="koi8r">KOI8-R (Russian)</option>
+									<option value="cp866">CP866 (DOS Cyrillic)</option>
+									<option value="iso88595">ISO-8859-5 (Cyrillic)</option>
+									<option value="latin1">Latin1 (ISO-8859-1)</option>
+								</select>
+							</div>
+						</div>
+						<div class="text-center">
+							<button id="convertString" type="button" class="btn btn-primary btn-lg">Convert to Hex</button>
+						</div>
+						<div class="mt-4 result-container">
+							<div class="card bg-dark">
+								<div class="card-header d-flex justify-content-between">
+									<h5>Result <small class="text-muted" id="stringResultEncoding">UTF-8</small></h5>
+									<button class="copy-btn" data-clipboard-target="#stringResult" title="Copy to clipboard">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+											<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+											<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+										</svg>
+									</button>
+								</div>
+								<div class="card-body">
+									<pre id="stringResult" class="mb-0">The hex values will appear here</pre>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</main>
 
-			<footer class="blockquote-footer text-center mt-5">
+			<footer class="text-center mt-5">
 				<p>
 					<a href="https://github.com/Vegasq/hashespro">Made by Nick here</a> | 
 					<a href="https://github.com/HashPals/Name-That-Hash">Based on Name-That-Hash by HashPals</a> | 
@@ -141,164 +341,72 @@ hash3"></textarea>
 				</p>
 			</footer>
 		</div>
-	</body>
-</html>
-
-<script type="text/javascript">
-	async function getPyWhatHashTypes(){
-		var knownHashTypes = [];
-		var resp = await fetch("https://raw.githubusercontent.com/bee-san/pyWhat/main/pywhat/Data/regex.json");
-		var data = await resp.json();
-
-		for (var i = data.length - 1; i >= 0; i--) {
-			try {
-				var r = new RegExp(data[i].Regex, 'i');
-			} catch(err) {
-				continue;
-			}
-			knownHashTypes.push({
-				name: "pyWhat: " + data[i].Name,
-				re: r,
+		
+		<!-- Theme toggle button -->
+		<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+			<svg class="dark-mode-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+				<path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+			</svg>
+			<svg class="light-mode-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+				<path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+			</svg>
+		</button>
+		
+		<!-- Scripts -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+		<script type="module" src="js/main.js"></script>
+		
+		<!-- Theme toggle script -->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				// Check for saved theme preference or use preferred color scheme
+				const savedTheme = localStorage.getItem('theme');
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				
+				if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+					document.body.classList.add('light-mode');
+				}
+				
+				// Theme toggle button
+				const themeToggle = document.getElementById('themeToggle');
+				themeToggle.addEventListener('click', function() {
+					document.body.classList.toggle('light-mode');
+					const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+					localStorage.setItem('theme', theme);
+				});
+				
+				// Initialize clipboard.js
+				new ClipboardJS('.copy-btn').on('success', function(e) {
+					const originalTitle = e.trigger.getAttribute('title');
+					e.trigger.setAttribute('title', 'Copied!');
+					setTimeout(function() {
+						e.trigger.setAttribute('title', originalTitle);
+					}, 1500);
+					e.clearSelection();
+				});
+				
+				// Update progress bar for bruteforcer
+				const bruteforceProgress = document.getElementById('bruteforceProgress');
+				const bruteforceProgressBar = document.getElementById('bruteforceProgressBar');
+				
+				if (bruteforceProgress && bruteforceProgressBar) {
+					const observer = new MutationObserver(function(mutations) {
+						mutations.forEach(function(mutation) {
+							if (mutation.type === 'characterData') {
+								const progressValue = parseInt(bruteforceProgress.textContent);
+								if (!isNaN(progressValue)) {
+									bruteforceProgressBar.style.width = progressValue + '%';
+									bruteforceProgressBar.setAttribute('aria-valuenow', progressValue);
+								}
+							}
+						});
+					});
+					
+					observer.observe(bruteforceProgress, { 
+						characterData: true,
+						subtree: true 
+					});
+				}
 			});
-		}
-
-		return knownHashTypes;
-	}
-
-	async function getHaitiHashTypes(){
-		var knownHashTypes = [];
-		var resp = await fetch("https://raw.githubusercontent.com/noraj/haiti/master/data/prototypes.json");
-		var data = await resp.json();
-
-		for (var i = data.length - 1; i >= 0; i--) {
-			var r = new RegExp(data[i].regex, 'i');
-			for (var j = data[i].modes.length - 1; j >= 0; j--) {
-				knownHashTypes.push({
-					name: "haiti: " + data[i].modes[j].name,
-					re: r,
-					hashcat: data[i].modes[j].hashcat,
-					john: data[i].modes[j].john,
-				});
-
-			}
-		}
-
-		return knownHashTypes;
-	}
-
-	async function getNTHHashTypes(){
-		var knownHashTypes = [];
-		var resp = await fetch("https://raw.githubusercontent.com/HashPals/Name-That-Hash/main/name_that_hash/hashes.py");
-		var data = await resp.text();
-
-		let hashProto = new RegExp(/re\.compile\(r\"(.+?)\".*?modes=\[(.*?)\]/, 'gms');
-		let regexExtractor = new RegExp(/re\.compile\(r\"(.*?)\"/, 'gms');
-		let nameExtractor = new RegExp(/name=.?\"(.*?)\"/, 'gms');
-		let hashcatExtractor = new RegExp(/hashcat=(\d+?),/, 'gms');
-		let johnExtractor = new RegExp(/john=\"(.+?)\",/, 'gms');
-
-		const found = data.match(hashProto);
-		for (var i = found.length - 1; i >= 0; i--) {
-			var regexes = [...found[i].matchAll(regexExtractor)];
-			var names = [...found[i].matchAll(nameExtractor)];
-			var hashcatModes = [...found[i].matchAll(hashcatExtractor)];;
-			var johnModes = [...found[i].matchAll(johnExtractor)];
-
-			if (regexes !== undefined) {
-				var r = new RegExp(regexes[0][1], 'i');
-
-				if (hashcatModes !== undefined && hashcatModes.length > 0) {
-					hashcatModes = hashcatModes[0][1];
-				}
-				if (johnModes !== undefined && johnModes.length > 0) {
-					johnModes = johnModes[0][1];
-				}
-
-				knownHashTypes.push({
-					name: "NTH: " + names[0][1],
-					re: r,
-					hashcat: hashcatModes,
-					john: johnModes,
-				});
-			}
-		}
-		return knownHashTypes;
-	}
-
-	function identifyHash(hashTypes, hash){
-		var results = [];
-		for (var j = hashTypes.length - 1; j >= 0; j--) {
-			var match = hash.match(hashTypes[j].re);
-			if (match !== null) {
-				results.push({
-					hash: hash,
-					hashType: hashTypes[j],
-				});
-			}
-		}
-		return results;
-	}
-
-	function displayResults(results){
-		var table = "";
-		var row = "";
-		for (var i = results.length - 1; i >= 0; i--) {
-			var result = results[i];
-			if (results[i].hashType !== undefined) {
-				row = `<tr>
-					<td class="wordwrap">${result.hash}</td>
-					<td>${result.hashType.name}</td>
-					<td>${result.hashType.hashcat}</td>
-					<td>${result.hashType.john}</td>
-				</tr>`;
-			} else {
-				row = `<tr>
-					<td>${result.hash}</td>
-					<td>?</td>
-					<td>?</td>
-					<td>?</td>
-				</tr>`;
-			}
-			table += row;
-		}
-
-		document.getElementById("results").innerHTML = table;
-		document.getElementById("results").parentNode.classList.remove('d-none');
-	}
-
-	async function identify(){
-		let hashesFieldValue = document.getElementById("hashesInputField").value;
-		let hashes = hashesFieldValue.split("\n");
-		var haitiHashTypes = await getHaitiHashTypes();
-		var nthHashTypes = await getNTHHashTypes();
-		var pywhatHashTypes = await getPyWhatHashTypes();
-
-		var hashTypes = haitiHashTypes.concat(nthHashTypes);
-		var hashTypes = hashTypes.concat(pywhatHashTypes);
-
-		var results = [];
-		for (var i = hashes.length - 1; i >= 0; i--) {
-			var detected = identifyHash(hashTypes, hashes[i]);
-			for (var j = detected.length - 1; j >= 0; j--) {
-				results.push(detected[j]);
-			}
-		}
-		displayResults(results);
-	};
-
-	(function init(){
-		let button = document.getElementById("identify");
-		button.addEventListener("click", identify);
-
-	})();
-</script>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LH6XZPJ24D"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-LH6XZPJ24D');
-</script>
+		</script>

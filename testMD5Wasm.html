@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD5 WebAssembly Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #results {
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .success {
+            color: #2e7d32;
+        }
+        .error {
+            color: #c62828;
+        }
+        .summary {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>MD5 WebAssembly Test</h1>
+    
+    <div>
+        <p>This page runs the testMD5Wasm test from the md5wasm.test.js module.</p>
+        <p>The test verifies the WebAssembly implementation of MD5 hash calculation.</p>
+    </div>
+    
+    <div id="results">Running test...</div>
+    
+    <script type="module">
+        // Import the necessary functions from md5wasm.test.js
+        import { md5, compileWasmModule, md5Wasm } from './js/md5wasm.js';
+        
+        // Redirect console output to the results div
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.textContent = '';
+        
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const text = args.join(' ');
+            const element = document.createElement('div');
+            
+            if (text.includes('✅')) {
+                element.className = 'success';
+            } else if (text.includes('Test summary')) {
+                element.className = 'summary';
+            }
+            
+            element.textContent = text;
+            resultsDiv.appendChild(element);
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            const text = args.join(' ');
+            const element = document.createElement('div');
+            element.className = 'error';
+            element.textContent = text;
+            resultsDiv.appendChild(element);
+        };
+        
+        // Define the testMD5Wasm function
+        async function testMD5Wasm() {
+            // Test MD5 calculation using WebAssembly
+            const wasmModule = await compileWasmModule();
+            
+            if (!wasmModule) {
+                throw new Error('Failed to compile WebAssembly module for MD5Wasm test');
+            }
+            
+            const testCases = [
+                { input: '1', expected: 'c4ca4238a0b923820dcc509a6f75849b' }
+            ];
+            
+            for (const { input, expected } of testCases) {
+                const result = md5Wasm(wasmModule.instance, wasmModule.memory, input);
+                if (result !== expected) {
+                    throw new Error(`md5Wasm("${input}") returned "${result}" but expected "${expected}"`);
+                }
+            }
+        }
+        
+        // Run the test
+        console.log('Running testMD5Wasm...\n');
+        
+        try {
+            await testMD5Wasm();
+            console.log('✅ testMD5Wasm passed');
+        } catch (error) {
+            console.error(`❌ testMD5Wasm failed: ${error.message}`);
+        }
+    </script>
+</body>
+</html>
