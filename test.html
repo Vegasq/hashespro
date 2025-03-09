@@ -74,6 +74,27 @@
             <li>SHA-3 hash generation (using SHA-384)</li>
             <li>Error handling for invalid algorithms</li>
         </ul>
+        
+        <h3>MD5 Crypto Implementation:</h3>
+        <ul>
+            <li>Basic MD5 hash generation for known inputs</li>
+            <li>Edge cases with special characters</li>
+            <li>Error handling for invalid inputs</li>
+        </ul>
+        
+        <h3>Hash Identifier:</h3>
+        <ul>
+            <li>Identification of various hash types</li>
+            <li>Handling of empty input</li>
+            <li>Handling of invalid input</li>
+        </ul>
+        
+        <h3>Character Encoder:</h3>
+        <ul>
+            <li>Hex to string conversion with various encodings</li>
+            <li>String to hex conversion with various encodings</li>
+            <li>Encoding maps consistency</li>
+        </ul>
     </div>
     
     <div id="results">Running tests...</div>
@@ -115,7 +136,10 @@
             import('./js/md5.test.js'),
             import('./js/md5wasm.test.js'),
             import('./js/md5Bruteforcer.test.js'),
-            import('./js/stringToHash.test.js')
+            import('./js/stringToHash.test.js'),
+            import('./js/md5crypto.test.js'),
+            import('./js/hashIdentifier.test.js'),
+            import('./js/characterEncoder.test.js')
         ]).catch(error => {
             console.error('Error loading test modules:', error);
         });

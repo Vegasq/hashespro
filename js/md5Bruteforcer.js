@@ -104,7 +104,12 @@ class WorkerPool {
         
         const workerCode = `
             // Import the MD5 function from the main thread
-            ${md5.toString()}
+            ${md5crypto.toString()}
+            
+            // Define md5 function to use md5crypto
+            function md5(input) {
+                return md5crypto(input);
+            }
             
             self.onmessage = function(e) {
                 const { targetHash, charset, minLength, maxLength, startIndex, endIndex } = e.data;
