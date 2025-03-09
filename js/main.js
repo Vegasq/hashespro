@@ -8,8 +8,7 @@ console.log('Main module loaded');
 import { identify } from './hashIdentifier.js';
 import { convertHexToString, convertStringToHex } from './characterEncoder.js';
 import { bruteforce } from './md5Bruteforcer.js';
-import { hashString } from './stringToHash.js';
-import { generateMD5, verifyMD5 } from './md5.js';
+import { hashString, verifyHashString } from './universalHashTool.js';
 
 console.log('Imports completed');
 
@@ -47,58 +46,27 @@ function init() {
         document.getElementById("stringResultEncoding").textContent = this.options[this.selectedIndex].text;
     });
     
-    // Initialize string to hash
+    // Initialize Universal Hash Tool - Generate Hash
     const generateHashButton = document.getElementById("generateHash");
     generateHashButton.addEventListener("click", hashString);
     
-    // Initialize hash algorithm select
+    // Initialize Universal Hash Tool - Hash Algorithm Select
     const hashAlgorithmSelect = document.getElementById("hashAlgorithmSelect");
     hashAlgorithmSelect.addEventListener("change", function() {
         document.getElementById("hashAlgorithmResult").textContent = this.options[this.selectedIndex].text;
     });
     
-    // Initialize MD5 generator
-    const generateMD5Button = document.getElementById("generateMD5");
-    if (generateMD5Button) {
-        generateMD5Button.addEventListener("click", function() {
-            const input = document.getElementById("md5Input").value;
-            const resultElement = document.getElementById("md5Result");
-            
-            try {
-                const hash = generateMD5(input);
-                resultElement.textContent = hash;
-                resultElement.classList.remove("text-danger");
-            } catch (error) {
-                resultElement.textContent = `Error: ${error.message}`;
-                resultElement.classList.add("text-danger");
-            }
-        });
+    // Initialize Universal Hash Tool - Verify Hash
+    const verifyHashButton = document.getElementById("verifyHash");
+    if (verifyHashButton) {
+        verifyHashButton.addEventListener("click", verifyHashString);
     }
     
-    // Initialize MD5 verifier
-    const verifyMD5Button = document.getElementById("verifyMD5");
-    if (verifyMD5Button) {
-        verifyMD5Button.addEventListener("click", function() {
-            const input = document.getElementById("md5VerifyInput").value;
-            const hash = document.getElementById("md5HashToVerify").value;
-            const resultElement = document.getElementById("md5VerifyResult");
-            
-            try {
-                const isValid = verifyMD5(input, hash);
-                if (isValid) {
-                    resultElement.textContent = "✓ Valid: The input matches the provided hash";
-                    resultElement.classList.remove("text-danger");
-                    resultElement.classList.add("text-success");
-                } else {
-                    resultElement.textContent = "✗ Invalid: The input does not match the provided hash";
-                    resultElement.classList.remove("text-success");
-                    resultElement.classList.add("text-danger");
-                }
-            } catch (error) {
-                resultElement.textContent = `Error: ${error.message}`;
-                resultElement.classList.add("text-danger");
-                resultElement.classList.remove("text-success");
-            }
+    // Initialize Universal Hash Tool - Verify Algorithm Select
+    const verifyAlgorithmSelect = document.getElementById("verifyAlgorithmSelect");
+    if (verifyAlgorithmSelect) {
+        verifyAlgorithmSelect.addEventListener("change", function() {
+            // No UI update needed for this select
         });
     }
     

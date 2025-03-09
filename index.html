@@ -38,36 +38,43 @@
 						<a class="nav-link" id="md5-bruteforcer-tab" data-bs-toggle="tab" href="#md5-bruteforcer" role="tab" aria-controls="md5-bruteforcer" aria-selected="false">MD5 Bruteforcer</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="string-to-hash-tab" data-bs-toggle="tab" href="#string-to-hash" role="tab" aria-controls="string-to-hash" aria-selected="false">String to Hash</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="md5-tab" data-bs-toggle="tab" href="#md5" role="tab" aria-controls="md5" aria-selected="false">MD5 Tool</a>
+						<a class="nav-link" id="universal-hash-tab" data-bs-toggle="tab" href="#universal-hash" role="tab" aria-controls="universal-hash" aria-selected="false">Universal Hash Tool</a>
 					</li>
 				</ul>
 				
 				<!-- Tab Content -->
 				<div class="tab-content" id="featureTabsContent">
-					<!-- MD5 Tool Tab -->
-					<div class="tab-pane fade" id="md5" role="tabpanel" aria-labelledby="md5-tab">
+					<!-- Universal Hash Tool Tab -->
+					<div class="tab-pane fade" id="universal-hash" role="tabpanel" aria-labelledby="universal-hash-tab">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="card mb-4">
 									<div class="card-header">
-										<h5 class="mb-0">Generate MD5 Hash</h5>
+										<h5 class="mb-0">Generate Hash</h5>
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<label for="md5Input">Enter text to hash</label>
-											<textarea id="md5Input" class="form-control" rows="4" placeholder="Enter text to generate MD5 hash"></textarea>
+											<label for="universalHashInput">Enter text to hash</label>
+											<textarea id="universalHashInput" class="form-control" rows="4" placeholder="Enter text to generate hash"></textarea>
 										</div>
-										<div class="text-center">
-											<button id="generateMD5" type="button" class="btn btn-primary">Generate MD5 Hash</button>
+										<div class="form-group mt-3">
+											<label for="hashAlgorithmSelect">Hash Algorithm</label>
+											<select id="hashAlgorithmSelect" class="form-control">
+												<option value="md5" selected>MD5</option>
+												<option value="sha1">SHA-1</option>
+												<option value="sha256">SHA-256</option>
+												<option value="sha512">SHA-512</option>
+												<option value="sha3">SHA-3</option>
+											</select>
+										</div>
+										<div class="text-center mt-3">
+											<button id="generateHash" type="button" class="btn btn-primary">Generate Hash</button>
 										</div>
 										<div class="mt-3 result-container">
 											<div class="card bg-dark">
-												<div class="card-header">
-													<h6 class="mb-0">Result</h6>
-													<button class="copy-btn" data-clipboard-target="#md5Result" title="Copy to clipboard">
+												<div class="card-header d-flex justify-content-between">
+													<h6 class="mb-0">Result <small class="text-muted" id="hashAlgorithmResult">MD5</small></h6>
+													<button class="copy-btn" data-clipboard-target="#hashResult" title="Copy to clipboard">
 														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 															<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
 															<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
@@ -75,7 +82,7 @@
 													</button>
 												</div>
 												<div class="card-body">
-													<pre id="md5Result" class="mb-0">The MD5 hash will appear here</pre>
+													<pre id="hashResult" class="mb-0">The hash will appear here</pre>
 												</div>
 											</div>
 										</div>
@@ -85,25 +92,35 @@
 							<div class="col-md-6">
 								<div class="card mb-4">
 									<div class="card-header">
-										<h5 class="mb-0">Verify MD5 Hash</h5>
+										<h5 class="mb-0">Verify Hash</h5>
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<label for="md5VerifyInput">Enter text to verify</label>
-											<textarea id="md5VerifyInput" class="form-control" rows="2" placeholder="Enter text to verify"></textarea>
+											<label for="verifyInput">Enter text to verify</label>
+											<textarea id="verifyInput" class="form-control" rows="2" placeholder="Enter text to verify"></textarea>
 										</div>
-										<div class="form-group">
-											<label for="md5HashToVerify">Enter MD5 hash to verify against</label>
-											<input type="text" id="md5HashToVerify" class="form-control" placeholder="e.g. 5f4dcc3b5aa765d61d8327deb882cf99">
+										<div class="form-group mt-3">
+											<label for="hashToVerify">Enter hash to verify against</label>
+											<input type="text" id="hashToVerify" class="form-control" placeholder="e.g. 5f4dcc3b5aa765d61d8327deb882cf99">
 										</div>
-										<div class="text-center">
-											<button id="verifyMD5" type="button" class="btn btn-primary">Verify Hash</button>
+										<div class="form-group mt-3">
+											<label for="verifyAlgorithmSelect">Hash Algorithm</label>
+											<select id="verifyAlgorithmSelect" class="form-control">
+												<option value="md5" selected>MD5</option>
+												<option value="sha1">SHA-1</option>
+												<option value="sha256">SHA-256</option>
+												<option value="sha512">SHA-512</option>
+												<option value="sha3">SHA-3</option>
+											</select>
+										</div>
+										<div class="text-center mt-3">
+											<button id="verifyHash" type="button" class="btn btn-primary">Verify Hash</button>
 										</div>
 										<div class="mt-3 result-container">
 											<div class="card bg-dark">
 												<div class="card-header">
 													<h6 class="mb-0">Verification Result</h6>
-													<button class="copy-btn" data-clipboard-target="#md5VerifyResult" title="Copy to clipboard">
+													<button class="copy-btn" data-clipboard-target="#verifyResult" title="Copy to clipboard">
 														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 															<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
 															<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
@@ -111,7 +128,7 @@
 													</button>
 												</div>
 												<div class="card-body">
-													<pre id="md5VerifyResult" class="mb-0">Verification result will appear here</pre>
+													<pre id="verifyResult" class="mb-0">Verification result will appear here</pre>
 												</div>
 											</div>
 										</div>
@@ -121,61 +138,32 @@
 						</div>
 						<div class="card mt-2">
 							<div class="card-header">
-								<h5 class="mb-0">About MD5</h5>
+								<h5 class="mb-0">About Hash Functions</h5>
 							</div>
 							<div class="card-body">
-								<p>MD5 (Message Digest Algorithm 5) is a widely used cryptographic hash function that produces a 128-bit (16-byte) hash value. It was designed by Ronald Rivest in 1991 to replace MD4.</p>
-								<p>Key characteristics of MD5:</p>
+								<p>Hash functions are cryptographic algorithms that convert data of arbitrary size into a fixed-size output (hash). They are designed to be one-way functions, meaning it should be computationally infeasible to reverse the process.</p>
+								<p>Key characteristics of hash functions:</p>
 								<ul>
-									<li>Produces a 32-character hexadecimal hash</li>
-									<li>Is deterministic (same input always produces same output)</li>
-									<li>Is designed to be a one-way function (cannot easily derive input from output)</li>
-									<li><strong>Security Note:</strong> MD5 is considered cryptographically broken and unsuitable for security applications. It should not be used for secure password storage or digital signatures.</li>
+									<li>Deterministic: Same input always produces the same output</li>
+									<li>Fixed output size: Regardless of input size</li>
+									<li>One-way function: Cannot easily derive input from output</li>
+									<li>Avalanche effect: Small changes in input produce significantly different outputs</li>
 								</ul>
-								<p>Common uses today:</p>
+								<p>Supported hash algorithms:</p>
+								<ul>
+									<li><strong>MD5:</strong> 128-bit hash (32 hex chars) - <em>Note: Considered cryptographically broken</em></li>
+									<li><strong>SHA-1:</strong> 160-bit hash (40 hex chars) - <em>Note: Vulnerable to collision attacks</em></li>
+									<li><strong>SHA-256:</strong> 256-bit hash (64 hex chars) - Widely used, considered secure</li>
+									<li><strong>SHA-512:</strong> 512-bit hash (128 hex chars) - Higher security than SHA-256</li>
+									<li><strong>SHA-3:</strong> Modern hash function with variable output sizes</li>
+								</ul>
+								<p>Common uses:</p>
 								<ul>
 									<li>File integrity checking</li>
-									<li>Checksums for downloaded files</li>
-									<li>Non-security related data identification</li>
+									<li>Password storage (with proper salting)</li>
+									<li>Digital signatures</li>
+									<li>Data identification</li>
 								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- String to Hash Tab -->
-					<div class="tab-pane fade" id="string-to-hash" role="tabpanel" aria-labelledby="string-to-hash-tab">
-						<div class="form-group">
-							<label for="stringToHashInput"><h4>Enter text to hash</h4></label>
-							<textarea id="stringToHashInput" class="form-control" rows="5" placeholder="Enter text to hash"></textarea>
-						</div>
-						<div class="form-row align-items-center mb-3">
-							<div class="col-md-4 offset-md-4">
-								<label for="hashAlgorithmSelect">Hash Algorithm</label>
-								<select id="hashAlgorithmSelect" class="form-control">
-									<option value="md5" selected>MD5</option>
-									<option value="sha1">SHA-1</option>
-									<option value="sha256">SHA-256</option>
-									<option value="sha512">SHA-512</option>
-									<option value="sha3">SHA-3</option>
-								</select>
-							</div>
-						</div>
-						<div class="text-center">
-							<button id="generateHash" type="button" class="btn btn-primary btn-lg">Generate Hash</button>
-						</div>
-						<div class="mt-4 result-container">
-							<div class="card bg-dark">
-								<div class="card-header d-flex justify-content-between">
-									<h5>Result <small class="text-muted" id="hashAlgorithmResult">MD5</small></h5>
-									<button class="copy-btn" data-clipboard-target="#hashResult" title="Copy to clipboard">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-											<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-											<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-										</svg>
-									</button>
-								</div>
-								<div class="card-body">
-									<pre id="hashResult" class="mb-0">The hash will appear here</pre>
-								</div>
 							</div>
 						</div>
 					</div>
